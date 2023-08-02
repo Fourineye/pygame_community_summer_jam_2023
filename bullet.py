@@ -21,7 +21,7 @@ class Bullet(jazz.Body):
         self.add_child(
             ParticleEmitter(
                 True,
-                1,
+                30,
                 emission_speed=[[10, 100]],
                 emission_angles=[(160, 360)],
                 particle_life=0.5,

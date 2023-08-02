@@ -2,6 +2,7 @@ import jazz
 from bullet import Bullet
 from consts import *
 from jazz import GAME_GLOBALS, Vec2
+from jazz.particles import ParticleEmitter
 
 
 class Player(jazz.Body):
@@ -12,6 +13,7 @@ class Player(jazz.Body):
         kwargs.setdefault("static", True)
         super().__init__(**kwargs)
         self.add_collider("Rect", w=P_HITBOX_X, h=P_HITBOX_Y)
+        self.add_child(ParticleEmitter(pos=(-P_HITBOX_X / 3, 0)))
         self._weapon_cooldown = 0
 
     def update(self, delta):
