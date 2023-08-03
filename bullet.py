@@ -20,6 +20,7 @@ class Bullet(jazz.Body):
                 30,
                 emission_speed=[[10, 100]],
                 emission_angles=[(160, 360)],
+                particle_graphics=BUBBLE_OPTIONS,
                 particle_life=0.5,
                 particle_update=bubble_update,
             )

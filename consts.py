@@ -9,6 +9,16 @@ P_RIGHT = "d"
 P_DOWN = "s"
 P_SHOOT = "space"
 
+ASSETS_PATH = "assets/"
+
+# Art
+BUBBLE_PATH = ASSETS_PATH + "bubbles/"
+BUBBLE_OPTIONS = [BUBBLE_PATH + "bubble_0.png", BUBBLE_PATH + "bubble_1.png"]
+BUBBLE_BURST = [BUBBLE_PATH + "burst_1.png", BUBBLE_PATH + "burst_0.png"]
+
+TADPOLE_PATH = ASSETS_PATH + "tadpole/"
+TADPOLE = TADPOLE_PATH + "tadpole.png"
+
 # Player attributes
 P_HITBOX_X = 32
 P_HITBOX_Y = 16

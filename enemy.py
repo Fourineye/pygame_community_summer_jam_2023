@@ -4,6 +4,8 @@ import jazz
 from bullet import Bullet
 from consts import *
 from jazz import GAME_GLOBALS, Vec2
+from jazz.particles import ParticleEmitter
+from util import bubble_update
 
 
 class BaseEnemy(jazz.Body):
@@ -14,6 +16,22 @@ class BaseEnemy(jazz.Body):
         super().__init__(**kwargs)
         self.add_collider("Rect", w=E_HITBOX_X, h=E_HITBOX_Y)
         self.hp = E_HP
+        self.add_child(
+            ParticleEmitter(
+                False,
+                20,
+                emission_speed=[[10, 100]],
+                emission_angles=[(160, 360)],
+                particle_graphics=BUBBLE_OPTIONS,
+                particle_life=0.5,
+                particle_update=bubble_update,
+                pos=(-P_HITBOX_X / 6, 0),
+                particle_spawn=jazz.Rect(
+                    -P_HITBOX_X / 3, -P_HITBOX_Y / 2, 2 * P_HITBOX_X / 3, P_HITBOX_Y
+                ),
+            ),
+            "move_particles",
+        )
 
     def update(self, delta):
         hits = self.move_and_collide(Vec2(-E_SPEED * delta, 0))

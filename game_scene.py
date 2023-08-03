@@ -15,6 +15,7 @@ class Game(jazz.Scene):
         self.add_object(Player(pos=(100, self.height / 2)), "player")
         self.add_object(WaveManager(WAVE_1), "wave_manager")
         self.camera.debug = True
+        self.camera.set_bg_color((128, 128, 255))
 
     def update(self, delta):
         ...

@@ -20,6 +20,7 @@ class Player(jazz.Body):
                 20,
                 emission_speed=[[10, 100]],
                 emission_angles=[(160, 360)],
+                particle_graphics=BUBBLE_OPTIONS,
                 particle_life=0.5,
                 particle_update=bubble_update,
                 pos=(-P_HITBOX_X / 6, 0),
@@ -29,6 +30,7 @@ class Player(jazz.Body):
             ),
             "move_particles",
         )
+        self.add_child(jazz.Sprite(asset=TADPOLE), "sprite")
         self._weapon_cooldown = 0
 
     def update(self, delta):
