@@ -3,6 +3,7 @@ from random import uniform
 import jazz
 from bullet import Bullet
 from consts import *
+from explosion import Explosion
 from jazz import GAME_GLOBALS, Vec2
 from jazz.particles import ParticleEmitter
 from util import bubble_update
@@ -18,19 +19,25 @@ class BaseEnemy(jazz.Body):
         self.hp = E_HP
         self.add_child(
             ParticleEmitter(
-                False,
-                20,
+                True,
+                10,
                 emission_speed=[[10, 100]],
                 emission_angles=[(160, 360)],
                 particle_graphics=BUBBLE_OPTIONS,
                 particle_life=0.5,
                 particle_update=bubble_update,
-                pos=(-P_HITBOX_X / 6, 0),
+                pos=(E_HITBOX_X / 6, 0),
                 particle_spawn=jazz.Rect(
-                    -P_HITBOX_X / 3, -P_HITBOX_Y / 2, 2 * P_HITBOX_X / 3, P_HITBOX_Y
+                    E_HITBOX_X / 3, -E_HITBOX_Y / 2, 2 * E_HITBOX_X / 3, E_HITBOX_Y
                 ),
             ),
             "move_particles",
+        )
+        self.add_child(
+            jazz.AnimatedSprite(
+                spritesheet=TADPOLE_ANIMATION, animation_fps=8, flip_x=True
+            ),
+            "sprite",
         )
 
     def update(self, delta):
@@ -44,10 +51,11 @@ class BaseEnemy(jazz.Body):
             self.queue_kill()
 
     def take_damage(self, damage: int):
-        if self.x < GAME_GLOBALS["Scene"].width - 10:
+        if self.x < GAME_GLOBALS["Scene"].width - 10 and not self.do_kill:
             self.hp -= damage
             if self.hp <= 0:
                 self.queue_kill()
+                GAME_GLOBALS["Scene"].add_object(Explosion(pos=self.pos))
 
 
 class ShooterEnemy(BaseEnemy):
@@ -82,7 +90,7 @@ class ShooterEnemy(BaseEnemy):
             direction = GAME_GLOBALS["Scene"].player.pos - self.pos
             direction.normalize_ip()
             for i in range(3):
-                vel = direction.rotate(-15 + 15 * i) * B_SPEED
+                vel = direction.rotate(-10 + 10 * i) * B_SPEED
                 GAME_GLOBALS["Scene"].add_object(
                     Bullet(
                         collision_layers="0001",

@@ -30,7 +30,10 @@ class Player(jazz.Body):
             ),
             "move_particles",
         )
-        self.add_child(jazz.Sprite(asset=TADPOLE), "sprite")
+        self.add_child(
+            jazz.AnimatedSprite(spritesheet=TADPOLE_ANIMATION, animation_fps=8),
+            "sprite",
+        )
         self._weapon_cooldown = 0
 
     def update(self, delta):
