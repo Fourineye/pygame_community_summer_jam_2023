@@ -3,6 +3,7 @@ from bullet import Bullet
 from consts import *
 from jazz import GAME_GLOBALS, Vec2
 from jazz.particles import ParticleEmitter
+from util import bubble_update
 
 
 class Player(jazz.Body):
@@ -13,7 +14,21 @@ class Player(jazz.Body):
         kwargs.setdefault("static", True)
         super().__init__(**kwargs)
         self.add_collider("Rect", w=P_HITBOX_X, h=P_HITBOX_Y)
-        self.add_child(ParticleEmitter(pos=(-P_HITBOX_X / 3, 0)))
+        self.add_child(
+            ParticleEmitter(
+                False,
+                20,
+                emission_speed=[[10, 100]],
+                emission_angles=[(160, 360)],
+                particle_life=0.5,
+                particle_update=bubble_update,
+                pos=(-P_HITBOX_X / 6, 0),
+                particle_spawn=jazz.Rect(
+                    -P_HITBOX_X / 3, -P_HITBOX_Y / 2, 2 * P_HITBOX_X / 3, P_HITBOX_Y
+                ),
+            ),
+            "move_particles",
+        )
         self._weapon_cooldown = 0
 
     def update(self, delta):
@@ -30,6 +45,9 @@ class Player(jazz.Body):
 
         if direction.magnitude_squared() != 0:
             direction.normalize_ip()
+            self.move_particles.active = True
+        else:
+            self.move_particles.active = False
 
         self.move(direction * P_SPEED * delta)
 
